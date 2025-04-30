@@ -108,7 +108,7 @@ Object {
  *
  * blah
  *
- * @example TypeScript example
+ * @example  TypeScript example
  * \`\`\`ts
  * line1
  * line2

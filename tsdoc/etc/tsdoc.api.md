@@ -120,7 +120,10 @@ export class DocExampleBlock extends DocBlock {
     get kind(): DocNodeKind | string;
     // @override (undocumented)
     protected onGetChildNodes(): ReadonlyArray<DocNode | undefined>;
-    readonly title: DocExcerpt | undefined;
+    // (undocumented)
+    readonly title: string | undefined;
+    // (undocumented)
+    readonly titleExcerpt: DocExcerpt | undefined;
 }
 
 // @public
@@ -642,12 +645,16 @@ export interface IDocEscapedTextParsedParameters extends IDocNodeParsedParameter
 
 // @public
 export interface IDocExampleBlockParameters extends IDocBlockParameters {
+    // (undocumented)
+    readonly title?: string;
 }
 
 // @public
 export interface IDocExampleBlockParsedParameters extends IDocBlockParsedParameters {
     // (undocumented)
-    readonly title?: TokenSequence;
+    readonly title?: string;
+    // (undocumented)
+    readonly titleExcerpt?: TokenSequence;
 }
 
 // @public

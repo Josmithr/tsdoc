@@ -179,8 +179,7 @@ export class TSDocEmitter {
           console.log('Emitting an example block title!');
           this._writeContent(' ');
           this._hangingParagraph = true;
-          // TODO: this doesn't work. Excerpts are not handled by the renderer.
-          this._renderNode(docExampleBlock.title);
+          this._writeContent(docExampleBlock.title);
           this._hangingParagraph = false;
         }
         this._renderNode(docExampleBlock.content);

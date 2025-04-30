@@ -723,7 +723,8 @@ export class NodeParser {
 
       blockTag: docBlockTag,
 
-      title: titleExcerpt
+      title: titleExcerpt?.toString(),
+      titleExcerpt: titleExcerpt
     });
   }
 

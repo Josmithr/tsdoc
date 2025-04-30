@@ -9,23 +9,25 @@ import { DocExcerpt, ExcerptKind } from './DocExcerpt';
 /**
  * Constructor parameters for {@link DocExampleBlock}.
  */
-export interface IDocExampleBlockParameters extends IDocBlockParameters {}
+export interface IDocExampleBlockParameters extends IDocBlockParameters {
+  readonly title?: string;
+}
 
 /**
  * Constructor parameters for {@link DocExampleBlock}.
  */
 export interface IDocExampleBlockParsedParameters extends IDocBlockParsedParameters {
-  readonly title?: TokenSequence;
+  readonly title?: string;
+  readonly titleExcerpt?: TokenSequence;
 }
 
 /**
  * Represents a parsed `@example` block.
  */
 export class DocExampleBlock extends DocBlock {
-  /**
-   * Example title, if any.
-   */
-  public readonly title: DocExcerpt | undefined;
+  // TODO: this should really be a parsed section, rather than plain text.
+  public readonly title: string | undefined;
+  public readonly titleExcerpt: DocExcerpt | undefined;
 
   /**
    * Don't call this directly.  Instead use {@link TSDocParser}
@@ -34,23 +36,15 @@ export class DocExampleBlock extends DocBlock {
   public constructor(parameters: IDocExampleBlockParameters | IDocExampleBlockParsedParameters) {
     super(parameters);
 
-    console.log('New DocExampleBlock!');
-
     if (DocNode.isParsedParameters(parameters)) {
-      console.log('PARSED');
-
-      if (parameters.title !== undefined) {
-        console.log('With title!');
-        this.title = new DocExcerpt({
+      this.title = parameters.title;
+      if (parameters.titleExcerpt !== undefined) {
+        this.titleExcerpt = new DocExcerpt({
           configuration: this.configuration,
           excerptKind: ExcerptKind.ExampleTitle,
-          content: parameters.title
+          content: parameters.titleExcerpt
         });
-      } else {
-        console.log('Without title!');
       }
-    } else {
-      console.log('UNPARSED');
     }
   }
 
@@ -61,6 +55,6 @@ export class DocExampleBlock extends DocBlock {
 
   /** @override */
   protected onGetChildNodes(): ReadonlyArray<DocNode | undefined> {
-    return [this.blockTag, this.title, this.content];
+    return [this.blockTag, this.titleExcerpt, this.content];
   }
 }
