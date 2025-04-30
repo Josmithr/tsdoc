@@ -179,7 +179,7 @@ export class TSDocEmitter {
           console.log('Emitting an example block title!');
           this._writeContent(' ');
           this._hangingParagraph = true;
-          this._writeContent(docExampleBlock.title);
+          this._writeContent(docExampleBlock.title.trim()); // TODO: trimming should probably be done in the parser
           this._hangingParagraph = false;
         }
         this._renderNode(docExampleBlock.content);

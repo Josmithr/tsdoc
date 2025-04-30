@@ -646,7 +646,7 @@ export interface IDocEscapedTextParsedParameters extends IDocNodeParsedParameter
 // @public
 export interface IDocExampleBlockParameters extends IDocBlockParameters {
     // (undocumented)
-    readonly title?: string;
+    readonly title?: DocSection;
 }
 
 // @public

@@ -668,53 +668,28 @@ export class NodeParser {
     });
   }
 
+  private _parseExampleTitle(tokenReader: TokenReader): TokenSequence | undefined {
+    const titleExcerpt: TokenSequence | undefined = this._tryReadUntilNewline(tokenReader);
+
+    // TODO: we need to be parsing the title as a proper DocNode tree, not just a string.
+    // It isn't clear to me what the correct way to do this is.
+
+    // TODO: trim whitespace?
+
+    return titleExcerpt;
+  }
+
   private _parseExampleBlock(
     tokenReader: TokenReader,
     docBlockTag: DocBlockTag,
     tagName: string
   ): DocExampleBlock {
-    console.log('Parsing example block');
+    console.log('Parsing example block...');
 
-    // First, check to see if the example block has a title. I.e., if there are any non-whitespace characters on the same line as the tag.
-    const startMarker: number = tokenReader.createMarker();
-    let done: boolean = false;
-    let hasTitle: boolean = false;
-    do {
-      switch (tokenReader.peekTokenKind()) {
-        case TokenKind.Spacing:
-          // If we encounter a space, we may or may not have a valid title.
-          // Read the token and continue.
-          tokenReader.readToken();
-          break;
-        case TokenKind.Newline:
-        case TokenKind.EndOfInput:
-          // If we reach a newline or end of input before finding a non-whitespace character, then we don't have a title.
-          hasTitle = false;
-          done = true;
-          break;
-        default:
-          // If we encounter a non-whitespace character before a newline or end of input, we have a title.
-          hasTitle = true;
-          done = true;
-          break;
-      }
-    } while (!done);
-    tokenReader.backtrackToMarker(startMarker);
-
-    console.log('hasTitle: ', hasTitle);
-
-    let titleExcerpt: TokenSequence | undefined;
-    if (hasTitle) {
-      // If there is a title, read it and extract the token sequence.
-      // TODO: do we need to do trimming here?
-      titleExcerpt = this._tryReadUntilNewline(tokenReader);
-
-      if (titleExcerpt) {
-        console.log('Title: ', titleExcerpt.toString());
-      }
-    } else {
-      // Otherwise, treat the entire block as the body (contents).
-      titleExcerpt = undefined;
+    // If there is a title, read it and extract the token sequence.
+    const titleExcerpt: TokenSequence | undefined = this._parseExampleTitle(tokenReader);
+    if (titleExcerpt !== undefined) {
+      console.log('Parsed title section: ', titleExcerpt.toString());
     }
 
     return new DocExampleBlock({
@@ -723,8 +698,8 @@ export class NodeParser {
 
       blockTag: docBlockTag,
 
-      title: titleExcerpt?.toString(),
-      titleExcerpt: titleExcerpt
+      titleExcerpt,
+      title: titleExcerpt?.toString()
     });
   }
 

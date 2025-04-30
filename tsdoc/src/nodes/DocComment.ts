@@ -148,7 +148,6 @@ export class DocComment extends DocNode {
    * @internal
    */
   public _appendExampleBlock(block: DocExampleBlock): void {
-    console.log('Appending example block to doc comment!');
     this._exampleBlocks.push(block);
   }
 

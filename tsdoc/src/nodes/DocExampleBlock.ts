@@ -5,12 +5,13 @@ import type { TokenSequence } from '../parser/TokenSequence';
 import { DocNodeKind, DocNode } from './DocNode';
 import { DocBlock, type IDocBlockParameters, type IDocBlockParsedParameters } from './DocBlock';
 import { DocExcerpt, ExcerptKind } from './DocExcerpt';
+import type { DocSection } from './DocSection';
 
 /**
  * Constructor parameters for {@link DocExampleBlock}.
  */
 export interface IDocExampleBlockParameters extends IDocBlockParameters {
-  readonly title?: string;
+  readonly title?: DocSection;
 }
 
 /**
