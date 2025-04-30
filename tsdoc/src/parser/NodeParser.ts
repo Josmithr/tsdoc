@@ -692,6 +692,8 @@ export class NodeParser {
       console.log('Parsed title section: ', titleExcerpt.toString());
     }
 
+    // TODO: we probably need to parse the rest of the example as an explicit "body", and ensure the entire block (title + body) is captured as the DocNode's "content." Otherwise, we run the risk of creating back-compat issues.
+
     return new DocExampleBlock({
       parsed: true,
       configuration: this._configuration,
