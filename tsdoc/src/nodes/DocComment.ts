@@ -8,6 +8,7 @@ import type { DocBlock } from './DocBlock';
 import type { DocInheritDocTag } from './DocInheritDocTag';
 import { StringBuilder } from '../emitters/StringBuilder';
 import { TSDocEmitter } from '../emitters/TSDocEmitter';
+import type { DocExampleBlock } from './DocExampleBlock';
 import { DocParamCollection } from './DocParamCollection';
 
 /**
@@ -90,6 +91,7 @@ export class DocComment extends DocNode {
    */
   public readonly modifierTagSet: StandardModifierTagSet;
 
+  private _exampleBlocks: DocExampleBlock[];
   private _seeBlocks: DocBlock[];
   private _customBlocks: DocBlock[];
 
@@ -110,6 +112,7 @@ export class DocComment extends DocNode {
 
     this.modifierTagSet = new StandardModifierTagSet();
 
+    this._exampleBlocks = [];
     this._seeBlocks = [];
     this._customBlocks = [];
   }
@@ -117,6 +120,13 @@ export class DocComment extends DocNode {
   /** @override */
   public get kind(): DocNodeKind | string {
     return DocNodeKind.Comment;
+  }
+
+  /**
+   * The collection of all `@example` DockBlockTag nodes belonging to this doc comment.
+   */
+  public get exampleBlocks(): ReadonlyArray<DocExampleBlock> {
+    return this._exampleBlocks;
   }
 
   /**
@@ -131,6 +141,15 @@ export class DocComment extends DocNode {
    */
   public get customBlocks(): ReadonlyArray<DocBlock> {
     return this._customBlocks;
+  }
+
+  /**
+   * Append an item to the seeBlocks collection.
+   * @internal
+   */
+  public _appendExampleBlock(block: DocExampleBlock): void {
+    console.log('Appending example block to doc comment!');
+    this._exampleBlocks.push(block);
   }
 
   /**
@@ -158,6 +177,7 @@ export class DocComment extends DocNode {
       this.params.count > 0 ? this.params : undefined,
       this.typeParams.count > 0 ? this.typeParams : undefined,
       this.returnsBlock,
+      ...this.exampleBlocks,
       ...this.customBlocks,
       ...this.seeBlocks,
       this.inheritDocTag,

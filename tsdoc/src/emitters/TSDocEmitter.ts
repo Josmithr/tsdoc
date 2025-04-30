@@ -25,7 +25,8 @@ import type {
   DocMemberReference,
   DocMemberSymbol,
   DocMemberSelector,
-  DocParamBlock
+  DocParamBlock,
+  DocExampleBlock
 } from '../nodes';
 import { DocNodeKind } from '../nodes/DocNode';
 import type { IStringBuilder } from './StringBuilder';
@@ -135,6 +136,7 @@ export class TSDocEmitter {
           docComment.params,
           docComment.typeParams,
           docComment.returnsBlock,
+          ...docComment.exampleBlocks,
           ...docComment.customBlocks,
           ...docComment.seeBlocks,
           docComment.inheritDocTag
@@ -166,6 +168,22 @@ export class TSDocEmitter {
       case DocNodeKind.EscapedText:
         const docEscapedText: DocEscapedText = docNode as DocEscapedText;
         this._writeContent(docEscapedText.encodedText);
+        break;
+
+      case DocNodeKind.ExampleBlock:
+        console.log('Emitting an example block!');
+        const docExampleBlock: DocExampleBlock = docNode as DocExampleBlock;
+        this._ensureLineSkipped();
+        this._renderNode(docExampleBlock.blockTag);
+        if (docExampleBlock.title) {
+          console.log('Emitting an example block title!');
+          this._writeContent(' ');
+          this._hangingParagraph = true;
+          // TODO: this doesn't work. Excerpts are not handled by the renderer.
+          this._renderNode(docExampleBlock.title);
+          this._hangingParagraph = false;
+        }
+        this._renderNode(docExampleBlock.content);
         break;
 
       case DocNodeKind.FencedCode:

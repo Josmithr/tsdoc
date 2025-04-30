@@ -79,7 +79,7 @@ test('02 Emit a basic comment', () => {
  * This is the remarks paragraph 2.
  * @example
  * blah
- * @example
+ * @example TypeScript example
  * \`\`\`ts
  * line1
  * line2
@@ -108,7 +108,7 @@ Object {
  *
  * blah
  *
- * @example
+ * @example TypeScript example
  * \`\`\`ts
  * line1
  * line2

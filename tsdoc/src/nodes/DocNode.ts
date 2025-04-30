@@ -14,6 +14,7 @@ import type { TSDocConfiguration } from '../configuration/TSDocConfiguration';
 export enum DocNodeKind {
   Block = 'Block',
   BlockTag = 'BlockTag',
+  ExampleBlock = 'ExampleBlock',
   Excerpt = 'Excerpt',
   FencedCode = 'FencedCode',
   CodeSpan = 'CodeSpan',

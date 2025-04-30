@@ -38,6 +38,11 @@ export enum ExcerptKind {
 
   EscapedText = 'EscapedText',
 
+  /**
+   * The (optional) title component of an `@example` block.
+   */
+  ExampleTitle = 'ExampleTitle',
+
   FencedCode_OpeningFence = 'FencedCode_OpeningFence',
   FencedCode_Language = 'FencedCode_Language',
   FencedCode_Code = 'FencedCode_Code',
